@@ -25,14 +25,16 @@ public class Server1Rest {
 	}
 
 	@GET
-	@Path("/getAddress/{school}")
+	@Path("/getAddress/{label}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getAddress(@PathParam("school") String label) {
+	public String getAddress(@PathParam("label") String label) {
 		String addressResult = addressMap.get(label);
 		if (addressResult == null || "".equals(addressResult)) {
 			return "not find " + label;
 		}
-		return addressResult;
+
+		String remind = "you can request   http://localhost:9080/server1/getLocation/" + addressResult + " , get Location ";
+		return remind;
 	}
 
 	@POST

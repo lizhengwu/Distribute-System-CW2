@@ -53,8 +53,7 @@ public class RestClient {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(TIME_ZONE_URI).append("location=").append(lat).append(",").append(lng).append("&timestamp=1458000000").append("&key=").append(TIME_ZONE_API_KEY);
 		String result = this.GetMessageForHttp(stringBuilder.toString());
-		JSONObject jsonObject = new JSONObject(result);
-		return jsonObject;
+		return new JSONObject(result);
 	}
 
 	private String GetMessageForHttp(String urlString) throws Exception {
