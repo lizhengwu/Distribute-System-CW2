@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -36,7 +35,7 @@ public class Server1Rest {
 		return remind;
 	}
 
-	@POST
+	@GET
 	@Path("/addAddress/{label}/{addressInfo}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String addAddress(@PathParam("label") String label, @PathParam("addressInfo") String addressInfo) {
