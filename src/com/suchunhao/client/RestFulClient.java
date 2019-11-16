@@ -1,5 +1,6 @@
 package com.suchunhao.client;
 
+import javax.swing.JOptionPane;
 import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jettison.json.JSONObject;
@@ -11,9 +12,10 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 public class RestFulClient {
 
-	static final String REST_URI = "http://localhost:9080";
-	static final String ADDRESS_PATH = "/server1";
-	// static final String SUB_PATH = "calc/sub";
+	static final String REST_URI = "http://localhost:9080/server1";
+	static final String ADDRESS_PATH = "/getAddress";
+	static final String LOCATION_PATH = "/getLocation";
+	static final String TIMEZONE_PATH = "/getTimeZone";
 
 	public static void main(String[] args) {
 		try {
@@ -23,26 +25,41 @@ public class RestFulClient {
 
 			// server1
 			System.out.println("please input 1 for get a address: ");
-			System.in.read();
+			int res = JOptionPane.showConfirmDialog(null, "点击确定获取地址", "获取地址", JOptionPane.YES_NO_OPTION);
+			if (res == JOptionPane.NO_OPTION) {
+				return;
+			}
 			WebResource addService1 = service.path(ADDRESS_PATH).path("/school");
 			String addressInfo = getOutputAsText(addService1);
 			System.out.println("server1 result: " + addressInfo);
 
 			// server2
 			System.out.println("please input 2 for get " + addressInfo + " location: ");
-			System.in.read();
-			WebResource addService2 = service.path(ADDRESS_PATH).path("/getLocation").path("/" + addressInfo);
+			int res1 = JOptionPane.showConfirmDialog(null, "点击确定获取" + addressInfo + "经纬度", "获取经纬度", JOptionPane.YES_NO_OPTION);
+			if (res1 == JOptionPane.NO_OPTION) {
+				return;
+			}
+			WebResource addService2 = service.path(LOCATION_PATH).path("/" + addressInfo);
 			String location = getOutputAsText(addService2);
 			System.out.println("server2 result: " + location);
 
-			// server 3
-			System.out.println("please input 2 for get " + addressInfo + " location: ");
-			System.in.read();
 			JSONObject jsonObject = new JSONObject(location);
 			String lat = jsonObject.getString("lat");
 			String lng = jsonObject.getString("lng");
-			WebResource addService3 = service.path(ADDRESS_PATH).path("/getTimeZone").path("/" + lat).path("/" + lng);
+			// server 3
+			System.out.println("please input 3 for get " + addressInfo + " location: ");
+			int res2 = JOptionPane.showConfirmDialog(null, "点击确定获取" + lat + "," + lng + "的时区", "获取时区", JOptionPane.YES_NO_OPTION);
+			if (res2 == JOptionPane.NO_OPTION) {
+				return;
+			}
+
+			WebResource addService3 = service.path(TIMEZONE_PATH).path("/" + lat).path("/" + lng);
 			String timeZone = getOutputAsText(addService3);
+			JSONObject jsonObject1 = new JSONObject(timeZone);
+			String timeZoneId = jsonObject1.getString("timeZoneId");
+			String timeZoneName = jsonObject1.getString("timeZoneName");
+			String server3Result = "timeZoneId:" + timeZoneId + ",timeZoneName:" + timeZoneName;
+			JOptionPane.showMessageDialog(null, server3Result);
 			System.out.println("server3 result: " + timeZone);
 
 			System.out.println("--------------end-------------------------------------");
