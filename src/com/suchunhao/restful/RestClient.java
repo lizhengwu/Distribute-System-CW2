@@ -31,7 +31,7 @@ public class RestClient {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(GEO_CODING_URI).append("address=").append(formatAddress).append("&key=").append(GEO_CODING_API_KEY);
 
-		String result = this.GetMessageForHttp(stringBuilder.toString());
+		String result = this.getMessageForHttp(stringBuilder.toString());
 		JSONObject jsonObject = new JSONObject(result);
 		JSONArray jsonArray = (JSONArray) jsonObject.get("results");
 		JSONObject results = (JSONObject) jsonArray.get(0);
@@ -52,11 +52,11 @@ public class RestClient {
 
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(TIME_ZONE_URI).append("location=").append(lat).append(",").append(lng).append("&timestamp=1458000000").append("&key=").append(TIME_ZONE_API_KEY);
-		String result = this.GetMessageForHttp(stringBuilder.toString());
+		String result = this.getMessageForHttp(stringBuilder.toString());
 		return new JSONObject(result);
 	}
 
-	public String GetMessageForHttp(String urlString) throws Exception {
+	public String getMessageForHttp(String urlString) throws Exception {
 		URL url;
 		HttpURLConnection connection = null;
 		InputStream is = null;
@@ -69,12 +69,13 @@ public class RestClient {
 			is = connection.getInputStream();
 			BufferedReader theReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
-			String reply;
-			while ((reply = theReader.readLine()) != null) {
-				return reply;
+			StringBuffer reply = new StringBuffer();
+			while (theReader.readLine() != null) {
+				reply.append(theReader.readLine());
 			}
-			return reply;
+			return reply.toString();
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new Exception();
 		} finally {
 			connection.disconnect();
@@ -85,7 +86,8 @@ public class RestClient {
 	public static void main(String[] args) {
 		try {
 			RestClient restClient = new RestClient();
-			restClient.GetMessageForHttp("https://maps.googleapis.com/maps/api/geocode/json?address=University+of+Leeds&key=AIzaSyBvZbHPaF79FEVD4tTJDkDQRiwmoBat0lc");
+			String result = restClient.getMessageForHttp("https://maps.googleapis.com/maps/api/geocode/json?address=University+of+Leeds&key=AIzaSyBvZbHPaF79FEVD4tTJDkDQRiwmoBat0lc");
+			System.out.println(result);
 		} catch (Exception e) {
 
 		}
