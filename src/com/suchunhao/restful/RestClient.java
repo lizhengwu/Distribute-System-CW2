@@ -83,15 +83,4 @@ public class RestClient {
 		}
 
 	}
-
-	public static void main(String[] args) {
-		try {
-			RestClient restClient = new RestClient();
-			String result = restClient.getMessageForHttp("https://maps.googleapis.com/maps/api/geocode/json?address=University+of+Leeds&key=AIzaSyBvZbHPaF79FEVD4tTJDkDQRiwmoBat0lc");
-			System.out.println(result);
-		} catch (Exception e) {
-
-		}
-
-	}
 }

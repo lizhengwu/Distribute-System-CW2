@@ -32,7 +32,7 @@ public class Server1Rest {
 		if (addressResult == null || "".equals(addressResult)) {
 			return "not find " + label;
 		}
-		String remind = "you can request   http://localhost:9080/server1/getLocation/" + addressResult + " , get Location ";
+		String remind = "you can request server2 http://localhost:9080/server1/getLocation/" + addressResult + " , get Location ";
 		return remind;
 	}
 
@@ -55,10 +55,10 @@ public class Server1Rest {
 			JSONObject jsonObject = restClient.addressLocationApi(address);
 			String lat = jsonObject.getString("lat");
 			String lng = jsonObject.getString("lng");
-			String remmid = "you can request http://localhost:9080/server1/getTimeZone/" + lat + "/" + "lng" + ",  to get TimeZone";
-			return remmid;
+			String remind = "you can request GET http://localhost:9080/server1/getTimeZone/" + lat + "/" + lng + ",  to get TimeZone";
+			return remind;
 		} catch (Exception e) {
-			return " sorry error i well fix it ";
+			return " sorry error i will fix it ";
 		}
 	}
 
@@ -76,7 +76,7 @@ public class Server1Rest {
 			JSONObject jsonObject = restClient.timeZoneApi(lat, lng);
 			return jsonObject.toString();
 		} catch (Exception e) {
-			return " sorry error i well fix it ";
+			return " sorry error i will fix it ";
 		}
 	}
 }
