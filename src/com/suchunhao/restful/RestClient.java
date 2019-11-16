@@ -56,22 +56,39 @@ public class RestClient {
 		return new JSONObject(result);
 	}
 
-	private String GetMessageForHttp(String urlString) throws Exception {
+	public String GetMessageForHttp(String urlString) throws Exception {
 		URL url;
 		HttpURLConnection connection = null;
 		InputStream is = null;
 
-		url = new URL(urlString);
-		connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod("GET");
-		connection.connect();
-		is = connection.getInputStream();
-		BufferedReader theReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+		try {
+			url = new URL(urlString);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.connect();
+			is = connection.getInputStream();
+			BufferedReader theReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
-		String reply;
-		while ((reply = theReader.readLine()) != null) {
+			String reply;
+			while ((reply = theReader.readLine()) != null) {
+				return reply;
+			}
 			return reply;
+		} catch (Exception e) {
+			throw new Exception();
+		} finally {
+			connection.disconnect();
 		}
-		return reply;
+
+	}
+
+	public static void main(String[] args) {
+		try {
+			RestClient restClient = new RestClient();
+			restClient.GetMessageForHttp("https://maps.googleapis.com/maps/api/geocode/json?address=University+of+Leeds&key=AIzaSyBvZbHPaF79FEVD4tTJDkDQRiwmoBat0lc");
+		} catch (Exception e) {
+
+		}
+
 	}
 }
