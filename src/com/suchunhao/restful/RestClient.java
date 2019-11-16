@@ -70,8 +70,9 @@ public class RestClient {
 			BufferedReader theReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
 			StringBuffer reply = new StringBuffer();
-			while (theReader.readLine() != null) {
-				reply.append(theReader.readLine());
+			String temp;
+			while ((temp = theReader.readLine()) != null) {
+				reply.append(temp);
 			}
 			return reply.toString();
 		} catch (Exception e) {
