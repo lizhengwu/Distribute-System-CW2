@@ -32,7 +32,8 @@ public class Server1Rest {
 			return "not find " + label;
 		}
 		String remind = "you can request server2 http://localhost:9080/server1/getLocation/" + addressResult + " , get Location ";
-		return remind;
+		System.out.println(remind);
+		return addressResult;
 	}
 
 	@GET
@@ -55,7 +56,8 @@ public class Server1Rest {
 			String lat = jsonObject.getString("lat");
 			String lng = jsonObject.getString("lng");
 			String remind = "you can request GET http://localhost:9080/server1/getTimeZone/" + lat + "/" + lng + ",  to get TimeZone";
-			return remind;
+			System.out.println(remind);
+			return jsonObject.toString();
 		} catch (Exception e) {
 			return " sorry error i will fix it ";
 		}
