@@ -32,7 +32,6 @@ public class Server1Rest {
 		if (addressResult == null || "".equals(addressResult)) {
 			return "not find " + label;
 		}
-
 		String remind = "you can request   http://localhost:9080/server1/getLocation/" + addressResult + " , get Location ";
 		return remind;
 	}
@@ -41,9 +40,7 @@ public class Server1Rest {
 	@Path("/addAddress/{label}/{addressInfo}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String addAddress(@PathParam("label") String label, @PathParam("addressInfo") String addressInfo) {
-
 		addressMap.put(label, addressInfo);
-
 		return "success";
 	}
 
@@ -56,26 +53,30 @@ public class Server1Rest {
 		}
 		try {
 			JSONObject jsonObject = restClient.addressLocationApi(address);
-			return jsonObject.toString();
+			String lat = jsonObject.getString("lat");
+			String lng = jsonObject.getString("lng");
+			String remmid = "you can request http://localhost:9080/server1/getTimeZone/" + lat + "/" + "lng" + ",  to get TimeZone";
+			return remmid;
 		} catch (Exception e) {
 			return " sorry error i well fix it ";
 		}
 	}
 
 	@GET
-	@Path("/getTimeZone/{location}")
+	@Path("/getTimeZone/{lat}/{lng}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getTimeZone(@PathParam("location") String location) {
-		if (location == null || "".equals(location)) {
-			return "not empty " + location;
+	public String getTimeZone(@PathParam("lat") String lat, @PathParam("lng") String lng) {
+		if (lat == null || "".equals(lat)) {
+			return "not empty " + lat;
+		}
+		if (lat == null || "".equals(lng)) {
+			return "not empty " + lng;
 		}
 		try {
-			JSONObject jsonObject1 = new JSONObject(location);
-			JSONObject jsonObject = restClient.timeZoneApi(jsonObject1.getString("lat"), jsonObject1.getString("lng"));
+			JSONObject jsonObject = restClient.timeZoneApi(lat, lng);
 			return jsonObject.toString();
 		} catch (Exception e) {
 			return " sorry error i well fix it ";
 		}
 	}
-
 }
