@@ -25,21 +25,21 @@ public class RestFulClient {
 
 			// server1
 			System.out.println("please input 1 for get a address: ");
-			int res = JOptionPane.showConfirmDialog(null, "点击确定获取地址", "获取地址", JOptionPane.YES_NO_OPTION);
-			if (res == JOptionPane.NO_OPTION) {
-				return;
+			String inputDialog = JOptionPane.showInputDialog(null, "请输入地址,如果不输入我将会去server1查询默认的地址", "获取地址", JOptionPane.YES_NO_OPTION);
+			if (inputDialog == null || "".equals(inputDialog)) {
+				WebResource addService1 = service.path(ADDRESS_PATH).path("/school");
+				String addressInfo = getOutputAsText(addService1);
+				System.out.println("server1 result: " + addressInfo);
+				inputDialog = addressInfo;
 			}
-			WebResource addService1 = service.path(ADDRESS_PATH).path("/school");
-			String addressInfo = getOutputAsText(addService1);
-			System.out.println("server1 result: " + addressInfo);
 
 			// server2
-			System.out.println("please input 2 for get " + addressInfo + " location: ");
-			int res1 = JOptionPane.showConfirmDialog(null, "点击确定获取" + addressInfo + "经纬度", "获取经纬度", JOptionPane.YES_NO_OPTION);
+			System.out.println("please input 2 for get " + inputDialog + " location: ");
+			int res1 = JOptionPane.showConfirmDialog(null, "点击确定获取" + inputDialog + "经纬度", "获取经纬度", JOptionPane.YES_NO_OPTION);
 			if (res1 == JOptionPane.NO_OPTION) {
 				return;
 			}
-			WebResource addService2 = service.path(LOCATION_PATH).path("/" + addressInfo);
+			WebResource addService2 = service.path(LOCATION_PATH).path("/" + inputDialog);
 			String location = getOutputAsText(addService2);
 			System.out.println("server2 result: " + location);
 
@@ -47,7 +47,7 @@ public class RestFulClient {
 			String lat = jsonObject.getString("lat");
 			String lng = jsonObject.getString("lng");
 			// server 3
-			System.out.println("please input 3 for get " + addressInfo + " location: ");
+			System.out.println("please input 3 for get " + inputDialog + " location: ");
 			int res2 = JOptionPane.showConfirmDialog(null, "点击确定获取" + lat + "," + lng + "的时区", "获取时区", JOptionPane.YES_NO_OPTION);
 			if (res2 == JOptionPane.NO_OPTION) {
 				return;
